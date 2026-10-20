@@ -10,7 +10,7 @@ public static class LunarItemCostType
 {
     public const string CostTypeName = "LunarItem";
 
-    internal static PurchaseInteraction PurchaseInteraction { get; set; }
+    internal static PurchaseInteraction? PurchaseInteraction { get; set; }
 
     public static void Register()
     {

@@ -1,7 +1,6 @@
 ﻿using BepInEx.Bootstrap;
-using Faust.QoLChests;
 using Faust.QoLChests.Handlers;
-using Faust.QoLChests.Configs;
+using Faust.QoLChests.Api;
 using System.Runtime.CompilerServices;
 
 namespace LunarPrinter.Compatibility;
@@ -14,7 +13,7 @@ internal static class QoLChestsCompatibility
     {
         get
         {
-            _enabled ??= Chainloader.PluginInfos.ContainsKey(QoLChests.PluginGUID);
+            _enabled ??= Chainloader.PluginInfos.ContainsKey("Faust.QoLChests");
             return (bool)_enabled;
         }
     }

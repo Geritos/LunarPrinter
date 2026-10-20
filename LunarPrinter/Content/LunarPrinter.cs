@@ -8,8 +8,8 @@ namespace LunarPrinter.Content;
 
 public static class LunarPrinter
 {
-    public static GameObject prefab;
-    public static InteractableSpawnCard spawnCard;
+    public static GameObject? prefab;
+    public static InteractableSpawnCard? spawnCard;
     public static readonly string name = "DuplicatorBlue";
     internal static readonly string _nameToken = "DUPLICATOR_BLUE";
     public static void Init()
@@ -17,6 +17,7 @@ public static class LunarPrinter
         GameObject baseDuplicator = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/DuplicatorLarge/DuplicatorLarge.prefab").WaitForCompletion();
         prefab = PrefabAPI.InstantiateClone(baseDuplicator, name, true);
 
+        if (prefab == null) return;
         ApplyVisuals();
         ApplyInspectInfo();
         ApplyBehavior();
@@ -35,7 +36,7 @@ public static class LunarPrinter
 
     private static void ApplyVisuals()
     {
-        SkinnedMeshRenderer renderer = prefab.GetComponentInChildren<SkinnedMeshRenderer>(true);
+        SkinnedMeshRenderer renderer = prefab!.GetComponentInChildren<SkinnedMeshRenderer>(true);
         Material baseMat = new(renderer.sharedMaterials[0]);
 
         var mat = Addressables.LoadAssetAsync<Material>("RoR2/Base/moon/matMoonBridge.mat").WaitForCompletion();
@@ -50,7 +51,7 @@ public static class LunarPrinter
     private static void ApplyInspectInfo()
     {
         // The inspect information of the printer itself is here, ShopTerminalBehavior holds the inspect information of the provided item.
-        if (prefab.TryGetComponent<GenericInspectInfoProvider>(out var inspectInfoProvider))
+        if (prefab!.TryGetComponent<GenericInspectInfoProvider>(out var inspectInfoProvider))
         {
             InspectDef baseInspectDef = Object.Instantiate(Addressables.LoadAssetAsync<InspectDef>("RoR2/Base/DuplicatorLarge/LargeDuplicatorInspectDef.asset").WaitForCompletion());
             baseInspectDef.Info.TitleToken = _nameToken + "_NAME";
@@ -61,7 +62,7 @@ public static class LunarPrinter
 
     private static void ApplyBehavior()
     {
-        if (prefab.TryGetComponent<ShopTerminalBehavior>(out var shopTerminal))
+        if (prefab!.TryGetComponent<ShopTerminalBehavior>(out var shopTerminal))
         {
             shopTerminal.dropTable = ScriptableObject.CreateInstance<LunarDropTable>();
             shopTerminal.itemTier = ItemTier.Lunar;
@@ -70,7 +71,7 @@ public static class LunarPrinter
 
     private static void ApplyPurchaseInteraction()
     {
-        if (prefab.TryGetComponent<PurchaseInteraction>(out var purchaseInteraction))
+        if (prefab!.TryGetComponent<PurchaseInteraction>(out var purchaseInteraction))
         {
             purchaseInteraction.displayNameToken = _nameToken + "_NAME"; // Name used in ping tooltip
             purchaseInteraction.costType = CostTypeIndex.LunarItemOrEquipment;
@@ -86,7 +87,7 @@ public static class LunarPrinter
         spawnCard = Object.Instantiate(baseCard);
         spawnCard.name = "iscDuplicatorBlue";
         spawnCard.prefab = prefab;
-        spawnCard.directorCreditCost = LunarPrinterPlugin.CreditCost.Value;
+        spawnCard.directorCreditCost = LunarPrinterPlugin.CreditCost!.Value;
         
     }
 
@@ -97,7 +98,7 @@ public static class LunarPrinter
             Card = new DirectorCard
             {
                 spawnCard = spawnCard,
-                selectionWeight = LunarPrinterPlugin.SelectionWeight.Value,
+                selectionWeight = LunarPrinterPlugin.SelectionWeight!.Value,
                 minimumStageCompletions = 0,
             },
             InteractableCategory = DirectorAPI.InteractableCategory.Duplicator,

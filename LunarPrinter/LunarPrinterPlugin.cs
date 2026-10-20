@@ -1,8 +1,6 @@
 using BepInEx;
 using BepInEx.Configuration;
-using Faust.QoLChests;
 using LunarPrinter.Compatibility;
-using LunarScrap;
 using R2API;
 using R2API.Utils;
 
@@ -12,17 +10,17 @@ namespace LunarPrinter;
 [BepInDependency(PrefabAPI.PluginGUID, BepInDependency.DependencyFlags.HardDependency)]
 [BepInDependency(DirectorAPI.PluginGUID, BepInDependency.DependencyFlags.HardDependency)]
 [BepInDependency(LanguageAPI.PluginGUID, BepInDependency.DependencyFlags.HardDependency)]
-[BepInDependency(LunarScrapPlugin.PluginGUID, BepInDependency.DependencyFlags.SoftDependency)]
-[BepInDependency(QoLChests.PluginGUID, BepInDependency.DependencyFlags.SoftDependency)]
+[BepInDependency("Geritos.Lunar_Scrap", BepInDependency.DependencyFlags.SoftDependency)]
+[BepInDependency("Faust.QoLChests", BepInDependency.DependencyFlags.SoftDependency)]
 [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
 public class LunarPrinterPlugin : BaseUnityPlugin
 {
-    public const string PluginGUID = PluginAuthor + "." + PluginName;
+    public const string PluginGUID = "Geritos.Lunar_Printer";
     public const string PluginAuthor = "Geritos";
     public const string PluginName = "Lunar_Printer";
-    public const string PluginVersion = "1.0.0";
-    internal static ConfigEntry<int> CreditCost;
-    internal static ConfigEntry<int> SelectionWeight;
+    public const string PluginVersion = "1.0.1";
+    internal static ConfigEntry<int>? CreditCost;
+    internal static ConfigEntry<int>? SelectionWeight;
     public void Awake()
     {
         Log.Init(Logger);
@@ -34,6 +32,11 @@ public class LunarPrinterPlugin : BaseUnityPlugin
 
     private void ApplyExtensions()
     {
+        if (LunarScrapCompatibility.Enabled)
+        {
+            LunarScrapCompatibility.ChangeLunarScrapDescription();
+        }
+
         if (QoLChestsCompatibility.Enabled)
         {
             QoLChestsCompatibility.RegisterLunarPrinterHighlighting();
