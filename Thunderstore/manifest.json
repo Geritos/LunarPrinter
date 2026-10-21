@@ -1,6 +1,6 @@
 ﻿{
 	"name": "Lunar_Printer",
-	"version_number": "1.0.1",
+	"version_number": "1.0.2",
 	"website_url": "https://github.com/Geritos/LunarPrinter",
 	"description": "Adds Lunar Printer that acts the same as all other printers.",
 	"dependencies": [
