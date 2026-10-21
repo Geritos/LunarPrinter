@@ -91,6 +91,13 @@ public static class LunarPrinter
         
     }
 
+    private static readonly string[] _trialStages =
+    [
+        "sad1",  // Winnowing of Predation
+        "soul1", // Winnowing of Mortality
+        "surv2"  // Winnowing of Survival
+    ];
+
     public static void Register()
     {
         DirectorAPI.DirectorCardHolder duplicatorBlueCard = new()
@@ -105,7 +112,11 @@ public static class LunarPrinter
         };
         DirectorAPI.Helpers.AddNewInteractable(duplicatorBlueCard);
 
+        foreach (string scene in _trialStages)
+        {
+            DirectorAPI.Helpers.RemoveExistingInteractableFromStage(spawnCard!.name, DirectorAPI.Stage.Custom, scene);
+        }
+
         LunarItemCostType.Register();
     }
-
 }
